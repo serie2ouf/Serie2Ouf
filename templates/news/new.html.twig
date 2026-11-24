@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'une news{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Ajout d'une news</h1>
+    <div class="card mx-auto my-4 p-4" style="max-width:700px;">
+        <div class="card-body">
+            {{ form_start(formNews) }}
+
+            <div class="mb-3">
+                {{ form_label(formNews.titre) }}
+                {{ form_widget(formNews.titre) }}
+                {{ form_errors(formNews.titre) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(formNews.datenews) }}
+                {{ form_widget(formNews.datenews) }}
+                {{ form_errors(formNews.datenews) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(formNews.contenu) }}
+                {{ form_widget(formNews.contenu) }}
+                {{ form_errors(formNews.contenu) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_label(formNews.image) }}
+                {{ form_widget(formNews.image) }}
+                {{ form_help(formNews.image) }}
+                {{ form_errors(formNews.image) }}
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success me-2">
+                    <i class="bi bi-check-circle"></i>
+                    Enregistrer
+                </button>
+                <a href="{{ path('app_news_gestion') }}" class="btn btn-danger">
+                    <i class="bi bi-x-circle"></i>
+                    Annuler
+                </a>
+            </div>
+
+            {{ form_end(formNews) }}
+        </div>
+    </div>
+{% endblock %}

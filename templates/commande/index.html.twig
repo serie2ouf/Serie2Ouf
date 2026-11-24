@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commandes{% endblock %}
+
+{% block body %}
+<div class="table-responsive w-75 mx-auto">
+    <h1 class="mb-4">Commandes</h1>
+    <table class="table table-bordered table-hover align-middle">
+        <thead>
+            <tr class="table-primary text-center">
+                <th>Numéro</th>
+                <th>Date</th>
+                {% if is_granted('ROLE_ADMIN') %}<th>Utilisateur</th>{% endif %}
+                <th>Détails</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for uneCde in lesCdes %}
+                <tr class="text-center">
+                    <td>{{ uneCde.id }}</td>
+                    <td>{{ uneCde.date|date('d/m/Y H\\hi') }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td>{{ uneCde.unUtilisateur.nom }} {{ uneCde.unUtilisateur.prenom }}</td>
+                    {% endif %}
+                    <td>
+                        <a href="{{ path('app_commande_show', {'id': uneCde.id}) }}" class="btn btn-info btn-sm me-1" title="Voir le détail">
+                            <i class="bi bi-search"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr class="text-center">
+                    <td colspan="{% if is_granted('ROLE_ADMIN') %}4{% else %}3{% endif %}">Pas de commandes</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-center mt-3">
+        <a class="btn btn-danger" href="{{ path('app_news_index') }}">Retour</a>
+    </div>
+</div>
+{% endblock %}

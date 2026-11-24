@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de la commande{% endblock %}
+
+{% block body %}
+<div class="table-responsive w-75 mx-auto">
+    <h1 class="mb-4">
+        Détail de la commande n° {{ uneCde.id }}
+        du {{ uneCde.date|date('d/m/Y H\\hi') }}
+    </h1>
+
+    {% set totalCde = 0 %}
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-primary text-center">
+            <tr>
+                <th>Photo</th>
+                <th>Référence</th>
+                <th>Libellé</th>
+                <th>Prix</th>
+                <th>Qté</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligne in uneCde.lesLignesCommandeProduits %}
+                <tr class="text-center">
+                    <td>
+                        {% if ligne.unProduit.photo %}
+                            <img width="50" src="{{ asset('images/produits/' ~ ligne.unProduit.photo) }}" alt="{{ ligne.unProduit.designation }}"/>
+                        {% else %}
+                            <img src="{{ asset('images/produits/INDISPONIBLE.jpg') }}" width="40" alt="Indisponible"/>
+                        {% endif %}
+                    </td>
+                    <td>{{ ligne.unProduit.id }}</td>
+                    <td class="text-start">{{ ligne.unProduit.designation }}</td>
+                    <td class="text-end">{{ ligne.unProduit.prix }} €</td>
+                    <td>{{ ligne.quantite }}</td>
+                    <td class="text-end">{{ (ligne.unProduit.prix * ligne.quantite)|number_format(2, ',', ' ') }} €</td>
+                </tr>
+                {% set totalCde = totalCde + (ligne.unProduit.prix * ligne.quantite) %}
+            {% else %}
+                <tr class="text-center">
+                    <td colspan="6">Pas d'enregistrements</td>
+                </tr>
+            {% endfor %}
+            <tr class="table-success text-end">
+                <td colspan="5"><b>TOTAL</b></td>
+                <td><b>{{ totalCde|number_format(2, ',', ' ') }} €</b></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-center mt-3">
+        <a class="btn btn-danger" href="{{ path('app_commande_index') }}">Retour à la liste des commandes</a>
+    </div>
+</div>
+{% endblock %}

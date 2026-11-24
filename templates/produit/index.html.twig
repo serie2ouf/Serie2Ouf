@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="row">
+
+    <div class="col-lg-3">
+      <!-- Ajout la classe "sticky-top" pour figer les catégories -->
+      <div class="sticky-top" style="top: 80px; max-height: calc(100vh - 40px); overflow-y: auto;">
+
+        <h2 class="my-4" style="color: #22c55e; border-bottom: 3px solid #22c55e; padding-bottom: 0.5rem;">
+          <i class="bi bi-filter"></i> Catégories
+        </h2>
+
+        {% if is_granted('ROLE_ADMIN') %}
+          <a href="{{ path('app_produit_new') }}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i>ajouter un produit</a>
+          <br><br>
+        {% endif %}
+      
+
+        <div class="list-group">
+
+          <a href="{{ path('app_produit_index') }}" style="border: 1px solid #e2e8f0;" class="list-group-item list-group-item-action {% if categorieActive is null %} active {% endif %}"> Toutes les catégories</a>
+
+          {% for uneCategorie in lesCategories %}
+            <a href="{{ path('app_produit_indexCat', {id: uneCategorie.id}) }}" class="list-group-item list-group-item-action {% if categorieActive == uneCategorie.id %} active {% endif %}">{{ uneCategorie.libelle }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- /.col-lg-3 -->
+
+    <div class="col-lg-9">
+
+      <div class="row">
+
+        {% for unProduit in lesProduits %}
+          <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4">
+            <div class="card h-100 shadow-sm border-0 product-card">
+              <a href="#" class="position-relative overflow-hidden">
+                <img
+                  class="card-img-top"
+                  src="{{ asset('images/produits/' ~ unProduit.photo) }}"
+                  alt="{{ unProduit.designation }}"
+                  onerror="this.onerror=null;this.src='{{ asset('images/produits/INDISPONIBLE.jpg') }}';"
+                >
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="#" style="color:#1e293b;text-decoration:none;">{{ unProduit.designation }}</a>
+                </h5>
+                <h6 style="color:#22c55e;font-weight:700;">{{ unProduit.prix }} €</h6>
+                <p class="card-text small">{{ unProduit.detail }}</p>
+              </div>
+              <div class="card-footer bg-light border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                  <small style="color:#f59e0b;">
+                    {% set note = 5 %}
+                    {% for i in 1..5 %}
+                      {{ (i <= note) ? "★" : "☆" }}
+                    {% endfor %}
+                  </small>
+                  <a href="{{ path('app_panier_add', {'id': unProduit.id}) }}" class="btn btn-sm" style="background-color:#22c55e;color:white;border:none;">
+                    <i class="bi bi-cart-plus"></i> Ajouter
+                  </a>
+                </div>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                  <div class="d-flex gap-2 mt-2">
+                    <a href="{{ path('app_produit_show', {'id': unProduit.id}) }}" class="btn btn-sm btn-info">
+                      <i class="bi bi-eye-fill"></i> Voir
+                    </a>
+                    <a href="{{ path('app_produit_edit', {'id': unProduit.id}) }}" class="btn btn-sm btn-warning">
+                      <i class="bi bi-pencil-fill"></i> Modifier
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.col-lg-9 -->
+
+  </div>
+  <!-- /.row -->
+{% endblock %}

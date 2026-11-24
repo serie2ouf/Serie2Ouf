@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row">
+	<div class="col-12">
+		<div id="demo" align="center" class="carousel slide my-4" data-bs-ride="carousel">
+
+			<!-- Indicateurs/dots -->
+			<div class="carousel-indicators">
+				{% set nbIndicateur = 1 %}
+				{% for uneNews in lesNews %}
+					<button type="button" data-bs-target="#demo" data-bs-slide-to="{{ nbIndicateur - 1 }}"
+						class="{% if (nbIndicateur == 1) %} active {% endif %}"></button>
+					{% set nbIndicateur = nbIndicateur + 1 %}
+                {% endfor %}
+			</div>
+
+			<!-- The slideshow/carousel -->
+			<div class="carousel-inner">
+				{% set nb = 1 %}
+				{% for uneNews in lesNews %}
+					<div class="carousel-item  {% if (nb == 1) %} active {% endif %}">
+						<img src="{{ asset ('images/divers/' ~ uneNews.image)}}"
+							alt="uneNews.titre"
+							class="d-block img-fluid">
+						<div class="carousel-caption d-none d-md-block">
+							<h5 style="color:black;">{{uneNews.titre}}</h5>
+							<p style="color:white;">{{uneNews.contenu}}</p>
+						</div>
+					</div>
+					{% set nb = nb + 1 %}
+                {% endfor %}
+			</div>
+
+			<!-- Left and right controls/icons -->
+			<button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon"></span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+				<span class="carousel-control-next-icon"></span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<!-- Section de bienvenue -->
+<div class="row my-5">
+	<div class="col-12">
+		<div class="alert alert-light border-2 border-start text-center" style="border-color: #22c55e !important; background-color: #f0fdf4;">
+			<h2 style="color: #16a34a; margin-bottom: 1rem;">
+				<i class="bi bi-lightning-charge"></i> Bienvenue chez Electric Mobility
+			</h2>
+			<p style="font-size: 1.1rem; color: #1e293b; margin-bottom: 0;">
+				Découvrez notre large gamme de produits de mobilité électrique. <br>Du vélo électrique à la trottinette en passant par l'hoverboard,
+				trouvez la solution qui vous convient pour une mobilité plus écologique et durable.
+			</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

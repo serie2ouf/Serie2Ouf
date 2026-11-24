@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .inline-fieldset { border: none; padding: 0; margin: 0; }
+        .inline-legend { font-size: 1rem; font-weight: bold; float: none; width: auto; padding: 0; margin-bottom: 0.5rem; }
+        .inline-options label { font-weight: normal; }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <p class="text-center">
+        <img src="{{ asset('images/divers/accueil.png') }}" height="100" alt="Logo Electric Mobility">
+    </p>
+    <h3 class="text-center">Electric Mobility</h3>
+    <h4 class="text-center">
+        6, rue des Primevères<br>
+        53000 LAVAL<br>
+        Téléphone : 02 43 84 65 74
+    </h4>
+    <p class="text-center">ou laissez-nous votre demande ci-dessous :</p>
+
+    {# Les messages flash ('success', 'warning') sont affichés par base.html.twig comme pour le panier #}
+
+    {{ form_start(formContact, {'attr': {'class': 'form-container', 'novalidate': 'novalidate'}}) }}
+
+        {# Ligne civilité / nom / prénom #}
+        <div class="form-row">
+            <div class="form-group">
+                {{ form_label(formContact.civilite) }}
+                {{ form_widget(formContact.civilite) }}
+                {{ form_errors(formContact.civilite) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(formContact.nom) }}
+                {{ form_widget(formContact.nom) }}
+                {{ form_errors(formContact.nom) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(formContact.prenom) }}
+                {{ form_widget(formContact.prenom) }}
+                {{ form_errors(formContact.prenom) }}
+            </div>
+        </div>
+
+        {# Sexe #}
+        <fieldset class="form-group inline-fieldset">
+            <legend class="inline-legend">Sexe *</legend>
+            <div class="inline-options">{{ form_widget(formContact.sexe) }}</div>
+            {{ form_errors(formContact.sexe) }}
+        </fieldset>
+
+        {# Type #}
+        <fieldset class="form-group inline-fieldset">
+            <legend class="inline-legend">Type *</legend>
+            <div class="inline-options">{{ form_widget(formContact.type) }}</div>
+            {{ form_errors(formContact.type) }}
+        </fieldset>
+
+        {# Objet #}
+        <div class="form-group">
+            {{ form_label(formContact.objet) }}
+            {{ form_widget(formContact.objet) }}
+            {{ form_errors(formContact.objet) }}
+        </div>
+
+        {# Email #}
+        <div class="form-group">
+            {{ form_label(formContact.email) }}
+            {{ form_widget(formContact.email) }}
+            {{ form_errors(formContact.email) }}
+        </div>
+
+        {# Téléphone #}
+        <div class="form-group">
+            {{ form_label(formContact.telephone) }}
+            {{ form_widget(formContact.telephone) }}
+            {{ form_errors(formContact.telephone) }}
+        </div>
+
+        {# Demande #}
+        <div class="form-group">
+            {{ form_label(formContact.demande) }}
+            {{ form_widget(formContact.demande) }}
+            {{ form_errors(formContact.demande) }}
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" name="Valider" id="Valider" class="btn btn-success">Envoyer le message</button>
+        </div>
+
+    {{ form_end(formContact) }}
+{% endblock %}

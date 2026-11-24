@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suppression d'une news{% endblock %}
+
+{% block body %}
+
+<h1 class="text-center">Suppression d'une news</h1>
+
+<div class="card mx-auto" style="max-width: 700px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <div class="card-body">
+
+        <p class="text-center text-danger">
+            Voulez-vous vraiment supprimer cette news ?
+        </p>
+
+        <table class="table table-bordered">
+            <tr>
+                <th>Titre</th>
+                <td>{{ uneNews.titre }}</td>
+            </tr>
+
+            <tr>
+                <th>Date</th>
+                <td>
+                    {{ uneNews.datenews ? uneNews.datenews|date('Y-m-d') : '' }}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Contenu</th>
+                <td>{{ uneNews.contenu }}</td>
+            </tr>
+
+            <tr>
+                <th>Image</th>
+                <td>
+                    {% if uneNews.image is not empty %}
+                        <img
+                            src="{{ asset('images/divers/' ~ uneNews.image) }}"
+                            alt="{{ uneNews.image }}"
+                            width="300"
+                        />
+                    {% else %}
+                        <span class="text-muted">Aucune image</span>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+
+      <div class="text-center mt-4">
+
+    <form method="post" class="d-inline">
+        <input type="hidden"
+               name="_token"
+               value="{{ csrf_token('delete' ~ uneNews.id) }}">
+
+        <button type="submit" class="btn btn-danger">
+            <i class="bi bi-trash"></i>
+            Confirmer la suppression
+        </button>
+    </form>
+
+    <a href="{{ path('app_news_gestion') }}" class="btn btn-secondary">
+        <i class="bi bi-x-circle"></i>
+        Annuler
+    </a>
+
+</div>
+
+    </div>
+</div>
+
+{% endblock %}

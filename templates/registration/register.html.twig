@@ -1,0 +1,749 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Electric Mobility - Inscription{% endblock %}
+
+{% block body %}
+<style>
+/* =========================================
+   PAGE INSCRIPTION
+   ========================================= */
+
+.container {
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   CARTE
+   ========================================= */
+
+.user_card {
+    width: 100%;
+    max-width: 420px;
+
+    box-sizing: border-box;
+
+    position: relative;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f8fafc 100%
+    );
+
+    border-radius: 16px;
+
+    padding: 45px 25px 25px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.08);
+
+    transition:
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.user_card:hover {
+    box-shadow:
+        0 20px 50px rgba(34, 197, 94, 0.12);
+
+    border-color: #22c55e;
+}
+
+
+/* =========================================
+   LOGO
+   ========================================= */
+
+.brand_logo_container {
+    position: absolute;
+
+    top: -50px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 100px;
+    height: 100px;
+
+    box-sizing: border-box;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #22c55e 0%,
+        #16a34a 100%
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 4px solid white;
+
+    box-shadow:
+        0 8px 24px rgba(34, 197, 94, 0.30);
+
+    overflow: hidden;
+
+    z-index: 10;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.user_card:hover .brand_logo_container {
+    transform: translateX(-50%) translateY(-3px);
+
+    box-shadow:
+        0 12px 32px rgba(34, 197, 94, 0.40);
+}
+
+
+.brand_logo {
+    display: block;
+
+    width: 85px !important;
+    height: 85px !important;
+
+    max-width: 85px !important;
+    max-height: 85px !important;
+
+    min-width: 85px;
+    min-height: 85px;
+
+    box-sizing: border-box;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 2px solid white;
+}
+
+
+/* Sécurité supplémentaire pour l'image */
+.brand_logo_container img {
+    width: 85px !important;
+    height: 85px !important;
+
+    max-width: 85px !important;
+    max-height: 85px !important;
+
+    object-fit: cover;
+}
+
+
+/* =========================================
+   TITRE
+   ========================================= */
+
+.conn-title {
+    color: #22c55e;
+
+    font-weight: 700;
+
+    font-size: 1.3rem;
+
+    margin-bottom: 18px;
+}
+
+.conn-title i {
+    margin-right: 4px;
+}
+
+
+/* =========================================
+   FORMULAIRE
+   ========================================= */
+
+.input-group {
+    width: 100%;
+
+    height: 38px;
+
+    margin-bottom: 12px;
+
+    display: flex;
+    align-items: stretch;
+}
+
+
+/* =========================================
+   ICÔNE GAUCHE
+   ========================================= */
+
+.input-group .input-group-text {
+    width: 42px;
+    min-width: 42px;
+
+    height: 38px;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        135deg,
+        #22c55e 0%,
+        #16a34a 100%
+    );
+
+    border: none;
+
+    color: white;
+
+    border-radius: 4px 0 0 4px;
+}
+
+.input-group .input-group-text i {
+    font-size: 15px;
+
+    line-height: 1;
+
+    display: block;
+}
+
+
+/* =========================================
+   CHAMPS
+   ========================================= */
+
+.input-group .form-control {
+    flex: 1;
+
+    width: auto;
+
+    min-width: 0;
+
+    height: 38px;
+
+    box-sizing: border-box;
+
+    padding: 6px 10px;
+
+    margin: 0;
+
+    border: 1px solid #ced4da;
+
+    border-left: none;
+
+    border-radius: 0 4px 4px 0;
+
+    background-color: #ffffff;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    outline: none;
+}
+
+
+/* Champ avec bouton œil */
+.input-group .form-control:has(+ .password-toggle) {
+    border-radius: 0;
+}
+
+
+/* Focus */
+.input-group .form-control:focus {
+    border-color: #22c55e;
+
+    box-shadow: none;
+
+    outline: none;
+}
+
+
+/* Placeholder */
+.input-group .form-control::placeholder {
+    color: #64748b;
+
+    opacity: 1;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   BOUTON MOT DE PASSE
+   ========================================= */
+
+.password-toggle {
+    width: 42px;
+    min-width: 42px;
+
+    height: 38px;
+
+    padding: 0;
+
+    margin: 0;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: none !important;
+
+    border-radius: 0 4px 4px 0 !important;
+
+    background: linear-gradient(
+        135deg,
+        #22c55e 0%,
+        #16a34a 100%
+    );
+
+    color: white;
+
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    background: linear-gradient(
+        135deg,
+        #16a34a 0%,
+        #15803d 100%
+    );
+
+    color: white;
+}
+
+.password-toggle:focus {
+    box-shadow: none;
+
+    outline: none;
+}
+
+.password-toggle i {
+    font-size: 15px;
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   ERREURS
+   ========================================= */
+
+.input-group + .invalid-feedback,
+.invalid-feedback {
+    font-size: 12px;
+}
+
+
+/* =========================================
+   CHECKLIST MOT DE PASSE
+   ========================================= */
+
+.password-checklist {
+    margin-top: 7px;
+
+    margin-bottom: 15px;
+
+    padding-left: 0;
+
+    list-style: none;
+
+    font-size: 12px;
+}
+
+.password-checklist li {
+    display: flex;
+
+    align-items: center;
+
+    color: #ef4444;
+
+    line-height: 18px;
+
+    margin: 0;
+}
+
+.password-checklist li.valid {
+    color: #16a34a;
+}
+
+.password-checklist li i {
+    width: 16px;
+
+    min-width: 16px;
+
+    margin-right: 4px;
+
+    font-size: 12px;
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   CONDITIONS D'UTILISATION
+   ========================================= */
+
+.mb-4.d-flex {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 18px !important;
+
+    font-size: 12px;
+}
+
+.mb-4.d-flex input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+
+    margin: 0;
+
+    flex-shrink: 0;
+
+    accent-color: #22c55e;
+}
+
+.mb-4.d-flex label {
+    margin: 0;
+
+    color: #334155;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   BOUTON INSCRIPTION
+   ========================================= */
+
+#registerSubmit {
+    width: 100%;
+
+    height: 38px;
+
+    padding: 0 15px;
+
+    margin-bottom: 12px;
+
+    border: none;
+
+    border-radius: 4px;
+
+    background: linear-gradient(
+        135deg,
+        #22c55e 0%,
+        #16a34a 100%
+    ) !important;
+
+    color: white !important;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+#registerSubmit:not(:disabled):hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 15px rgba(34, 197, 94, 0.25);
+}
+
+#registerSubmit:disabled {
+    opacity: 0.65;
+
+    background: linear-gradient(
+        135deg,
+        #22c55e 0%,
+        #16a34a 100%
+    ) !important;
+
+    color: white !important;
+
+    cursor: not-allowed;
+}
+
+#registerSubmit i {
+    margin-right: 7px;
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.conn-footer-text {
+    border-top: 1px solid #e2e8f0;
+
+    padding-top: 12px;
+
+    font-size: 0.75rem;
+
+    color: #64748b;
+}
+
+.conn-footer-text p {
+    color: #64748b;
+
+    margin-bottom: 0;
+}
+
+.conn-nav-link {
+    color: #16a34a;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.conn-nav-link:hover {
+    color: #15803d;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   FORM ERRORS
+   ========================================= */
+
+.form-error-message {
+    color: #dc2626;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .user_card {
+        width: 95%;
+
+        max-width: 420px;
+
+        padding: 45px 18px 20px;
+    }
+
+    .brand_logo_container {
+        width: 90px;
+        height: 90px;
+
+        top: -45px;
+    }
+
+    .brand_logo,
+    .brand_logo_container img {
+        width: 75px !important;
+        height: 75px !important;
+
+        max-width: 75px !important;
+        max-height: 75px !important;
+
+        min-width: 75px;
+        min-height: 75px;
+    }
+
+    .input-group {
+        height: 38px;
+    }
+
+    .input-group .input-group-text {
+        width: 40px;
+        min-width: 40px;
+
+        height: 38px;
+    }
+
+    .password-toggle {
+        width: 40px;
+        min-width: 40px;
+
+        height: 38px;
+    }
+
+    .input-group .form-control {
+        height: 38px;
+
+        font-size: 13px;
+    }
+}
+
+</style>
+
+<div class="container" style="margin-top: 90px; margin-bottom: 40px;">
+    <div class="d-flex justify-content-center">
+        <div class="user_card position-relative">
+
+            <div class="d-flex justify-content-center">
+                <div class="brand_logo_container">
+                    <img src="{{ asset('images/divers/MenuConnexionKO.png') }}" class="brand_logo" alt="Logo">
+                </div>
+            </div>
+
+            <div class="px-2 mt-2">
+                <h3 class="text-center mb-3 conn-title">
+                    <i class="bi bi-person-plus"></i>
+                    Inscription
+                </h3>
+
+                {{ form_errors(registrationForm) }}
+                {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text input-icon">
+                        <i class="bi bi-person"></i>
+                    </span>
+                    {{ form_widget(registrationForm.nom) }}
+                    {{ form_errors(registrationForm.nom) }}
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text input-icon">
+                        <i class="bi bi-person"></i>
+                    </span>
+                    {{ form_widget(registrationForm.prenom) }}
+                    {{ form_errors(registrationForm.prenom) }}
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text input-icon">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+                    {{ form_widget(registrationForm.email) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text input-icon">
+                        <i class="bi bi-lock"></i>
+                    </span>
+                    {{ form_widget(registrationForm.plainPassword) }}
+                  <button class="btn password-toggle" type="button"
+                   onclick="togglePassword('registration_form_plainPassword')">
+                      <i id="eye" class="bi bi-eye"></i>
+                   </button>
+
+                </div>
+                {{ form_errors(registrationForm.plainPassword) }}
+
+                <ul class="password-checklist mb-3" id="password-checklist">
+                    <li><i class="bi bi-x-circle"></i> Une majuscule</li>
+                    <li><i class="bi bi-x-circle"></i> Une minuscule</li>
+                    <li><i class="bi bi-x-circle"></i> Un chiffre</li>
+                    <li><i class="bi bi-x-circle"></i> Un caractère spécial</li>
+                    <li><i class="bi bi-x-circle"></i> 10 caractères minimum</li>
+                </ul>
+
+                <div class="mb-4 d-flex align-items-center gap-2">
+                    {{ form_widget(registrationForm.agreeTerms) }}
+                    {{ form_label(registrationForm.agreeTerms) }}
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
+
+                <button type="submit" id="registerSubmit"
+                        class="btn w-100 mb-3"
+                        disabled
+                        style="background:linear-gradient(135deg,#22c55e,#16a34a);color:white;font-weight:700;">
+                    <i class="bi bi-check-lg me-2"></i>
+                    Créer le compte
+                </button>
+
+                {{ form_end(registrationForm) }}
+
+                <div class="conn-footer-text text-center">
+                    <p class="mb-0">
+                        Déjà un compte ?
+                        <a href="{{ path('app_login') }}" class="conn-nav-link">Se connecter</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function passwordValidator(passwordId, checklistId, submitId) {
+
+    const password = document.getElementById(passwordId);
+    const checklist = document.getElementById(checklistId);
+    const submit = document.getElementById(submitId);
+
+    if (!password || !checklist || !submit) return;
+
+    const rules = [
+        /[A-Z]/,
+        /[a-z]/,
+        /\d/,
+        /[@$!%*?&#^(){}[\]\\]/,
+        /.{10,}/
+    ];
+
+    function update() {
+        let allValid = true;
+        const items = checklist.querySelectorAll("li");
+
+        rules.forEach((rule, i) => {
+            const ok = rule.test(password.value);
+            items[i].classList.toggle("valid", ok);
+            items[i].querySelector("i").className =
+                ok ? "bi bi-check-circle" : "bi bi-x-circle";
+
+            if (!ok) allValid = false;
+        });
+
+        submit.disabled = !allValid;
+    }
+
+    password.addEventListener("input", update);
+}
+
+passwordValidator(
+    "registration_form_plainPassword",
+    "password-checklist",
+    "registerSubmit"
+);
+
+function togglePassword(passwordId) {
+    const input = document.getElementById(passwordId);
+    const eye = document.getElementById("eye");
+
+    if (input.type === "password") {
+        input.type = "text";
+        eye.className = "bi bi-eye-slash";
+    } else {
+        input.type = "password";
+        eye.className = "bi bi-eye";
+    }
+}
+</script>
+
+{% endblock %}

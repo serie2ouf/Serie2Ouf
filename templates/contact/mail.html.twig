@@ -1,0 +1,19 @@
+Bonjour {{ unContact.civilite }} {{ unContact.prenom }} {{ unContact.nom }},
+<br/>
+Votre message a bien été transmis à la société Electric Mobility.
+<br/>
+Nous vous répondrons le plus rapidement possible.
+<br/>
+Cordialement
+<br/>
+<hr>
+Date : {{ unContact.date|date('d-m-Y') }}<br>
+Objet : {{ unContact.objet }}<br>
+Civilité : {{ unContact.civilite }}<br>
+Nom : {{ unContact.nom }}<br>
+Prénom : {{ unContact.prenom }}<br>
+Sexe : {{ unContact.sexe }}<br>
+Type : {{ unContact.type }}<br>
+Email : {{ unContact.email }}<br>
+Téléphone : {{ unContact.telephone }}<br>
+Demande : {{ unContact.demande }}<br>

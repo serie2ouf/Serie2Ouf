@@ -1,0 +1,105 @@
+{# Navigation #}
+{% set route = app.request.attributes.get('_route') %}
+<nav class="navbar navbar-expand-lg navbar-em fixed-top shadow-sm">
+  <div class="container">
+
+    <a class="navbar-brand em-logo" href="{{ path('app_news_index') }}">
+      <i class="bi bi-lightning-charge me-2"></i>
+      ELECTRIC MOBILITY
+    </a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="bi bi-list em-toggler"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ms-auto">
+
+        <li class="nav-item">
+          <a class="nav-link navbar-link-custom {{ route == 'app_news_index' ? 'active' : '' }}" href="{{ path('app_news_index') }}">
+            <i class="bi bi-house me-2"></i>Accueil
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link navbar-link-custom {{ route == 'app_produit_index' or route == 'app_produit_indexCat' ? 'active' : '' }}" href="{{ path('app_produit_index') }}">
+            <i class="bi bi-grid-3x3-gap me-2"></i>Catalogue
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link navbar-link-custom" href="#">
+            <i class="bi bi-hammer me-2"></i>Outils
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link navbar-link-custom {{ route == 'app_contact_index' ? 'active' : '' }}" href="{{ path('app_contact_index') }}">
+            <i class="bi bi-envelope me-2"></i>Contact
+          </a>
+        </li>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+          <li class="nav-item">
+            <a class="nav-link navbar-link-custom {{ route == 'app_commande_index' ? 'active' : '' }}" href="{{ path('app_commande_index') }}">
+              <i class="bi bi-receipt me-2"></i>Commandes
+            </a>
+          </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link navbar-link-custom {{ route == 'app_panier_index' ? 'active' : '' }}" href="{{ path('app_panier_index') }}">
+            <i class="bi bi-cart me-1"></i>
+            <span class="badge bg-primary" id="nbProdNav">{{ app.session.get('nbproduitpanier')|default(0) }}</span>
+          </a>
+        </li>
+
+        {% if is_granted('ROLE_ADMIN') %}
+          <li class="nav-item dropdown ms-2">
+            <a class="nav-link dropdown-toggle navbar-link-custom em-admin" href="#" id="navbarDropdownGestion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-shield-lock me-2"></i>Gestion
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark em-dropdown" aria-labelledby="navbarDropdownGestion">
+              <li><a class="dropdown-item em-drop-item" href="{{ path('app_categorie_index') }}">Catégorie</a></li>
+              <li><a class="dropdown-item em-drop-item" href="{{ path('app_news_gestion') }}">News</a></li>
+              <li><a class="dropdown-item em-drop-item" href="{{ path('app_produit_index') }}">Produit</a></li>
+              <li><a class="dropdown-item em-drop-item" href="{{ path('app_utilisateur_index') }}">Utilisateur</a></li>
+            </ul>
+          </li>
+        {% endif %}
+
+        {% if not app.user %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_login') }}" title="Connexion">
+              <img src="{{ asset('images/divers/MenuConnexionKO.png') }}" width="20" alt="Se connecter">
+            </a>
+          </li>
+        {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="{{ asset('images/divers/MenuConnexionOK.png') }}" width="20" alt="Connecté">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li>
+                <div class="px-3 py-2" style="min-width: 200px;">
+                  <p class="mb-0 fw-bold text-center">{{ app.user.nom }} {{ app.user.prenom }}</p>
+                  <p class="text-muted small mb-2 text-center">{{ app.user.email }}</p>
+                  <a class="btn btn-primary btn-sm w-100" href="{{ path('app_profil_index') }}">
+                    <i class="bi bi-person-circle"></i>&nbsp;Profil
+                  </a>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" href="{{ path('app_logout') }}">
+                  <i class="bi bi-box-arrow-right me-2"></i>Déconnexion
+                </a>
+              </li>
+            </ul>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>

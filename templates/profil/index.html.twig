@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil
+{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('profil') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div class="text-center mb-4">
+
+            <img height="120" class="rounded-circle shadow-sm mb-3" src="" alt="Photo de profil">
+  
+        <h1>Profil utilisateur</h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle w-75 mx-auto">
+            <tbody>
+                <tr>
+                    <th class="table-primary w-25 text-center align-middle">Nom</th>
+                    <td>{{ unUtilisateur.nom }}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-center align-middle">Prénom</th>
+                    <td>{{ unUtilisateur.prenom }}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-center align-middle">Rôle</th>
+                    <td>
+                        {% for role in unUtilisateur.roles %}
+                            {% if role == "ROLE_USER" %}
+                                Utilisateur
+                            {% elseif role == "ROLE_EDITOR" %}
+                                Editeur
+                            {% else %}
+                                Administrateur
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="table-primary text-center align-middle">Login (mail)</th>
+                    <td>{{ unUtilisateur.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ path('app_profil_edit') }}" class="btn btn-warning btn-lg me-2" title="Modifier mes informations">
+            <i class="bi bi-pencil-fill"></i>
+            Modifier mes informations
+        </a>
+        <a href="{{ path('app_profil_editPhoto') }}" class="btn btn-info btn-lg me-2" title="Modifier ma photo de profil">
+            <i class="bi bi-person-circle"></i>
+            Modifier ma photo
+        </a>
+        <a href="{{ path('app_profil_editPassword') }}" class="btn btn-danger btn-lg me-2" title="Modifier mon mot de passe">
+            <i class="bi bi-key-fill"></i>
+            Modifier mon mot de passe
+        </a>
+        <a href="{{ path('app_profil_voirCommandes') }}" class="btn btn-success btn-lg me-2" title="Voir mes commandes">
+            <i class="bi bi-search"></i>
+            Consulter mes commandes
+        </a>
+    </div>
+
+{% endblock %}

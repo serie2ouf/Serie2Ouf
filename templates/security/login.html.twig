@@ -1,0 +1,425 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion
+{% endblock %}
+
+{% block body %}
+
+    <div class="container" style="margin-top: 80px; margin-bottom: 30px;">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: auto;">
+            <div
+                class="user_card position-relative">
+                <!-- Logo circulaire -->
+                <div class="d-flex justify-content-center">
+                    <div class="brand_logo_container">
+                        <img src="{% if app.user %} {{asset('images/divers/MenuConnexionOK.png')}} {% else %} {{asset('images/divers/MenuConnexionKO.png')}} {% endif %}" class="brand_logo" alt="Logo">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column align-items-center justify-content-center mt-2 w-100">
+
+                    {% if app.user %}
+
+                        <!-- Avatar -->
+                        <div style="width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem;">
+                            <img src="{{ asset('images/divers/AvatarInconnu.png') }}" alt=" Avatar" height="60"/>
+                        </div>
+
+                        <!-- Bienvenue -->
+                        <h3 style=" color: #1e293b; margin-bottom: 0.3rem; font-size: 1.25rem;">Bienvenue</h3>
+                        <p style="color: #64748b; font-size: 1rem; margin-bottom: 0.3rem;">
+                            <strong style="color: #22c55e;">{{app.user.nom }}
+                                {{app.user.prenom }}</strong>
+                        </p>
+                        <p style="color: #f59e0b; font-weight: 600; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                            <i class="bi bi-shield-check me-2"></i>
+                            {% if 'ROLE_ADMIN' in app.user.roles %}
+                                Administrateur
+                            {% elseif 'ROLE_EDITOR' in app.user.roles %}
+                                Éditeur
+                            {% else %}
+                                Utilisateur
+                            {% endif %}
+
+                        </p>
+
+                        <!-- Bouton Déconnexion -->
+                        <a href="{{ path('app_logout') }}" class="btn w-100 btn-logout">
+                            <i class="bi bi-box-arrow-right me-2"></i>
+                            Déconnexion
+                        </a>
+
+                    </div>
+                {% else %}
+                    <!-- Formulaire de connexion -->
+                    <div class="d-flex justify-content-center form_container mt-2 w-100">
+                        <form
+                            method="post">
+
+                            <!-- Titre -->
+                            <h3 class="text-center mb-3 conn-title">
+                                <i class="bi bi-lock"></i>
+                                Connexion
+                            </h3>
+
+                            <!-- Email -->
+                            <div class="input-group mb-3">
+                                <span class="input-group-text input-icon">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input type="email" id="username" name="_username" value="{{ last_username }}" class="form-control conn-input" placeholder="Adresse email" required autocomplete="email">
+                            </div>
+
+                            <!-- Mot de passe -->
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border: none; color: white;">
+                                    <i class="bi bi-key"></i>
+                                </span>
+                                <input type="password" name="_password" id="password" class="form-control" placeholder="Mot de passe" required autocomplete="current-password" style="border: 1px solid #e2e8f0; padding: 0.6rem; transition: all 0.3s ease;" onfocus="this.style.borderColor='#22c55e'; this.style.boxShadow='0 0 0 3px rgba(34, 197, 94, 0.1)';" onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';">
+                                <button class="btn" type="button" onclick="togglePassword('password')" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; border: none; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
+                                    <i id="eye" class="bi bi-eye"></i>
+                                </button>
+                            </div>
+
+                            <input
+                            type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+                            <!-- Se souvenir -->
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" name="sesouverte" id="rememberMe" style="border-color: #22c55e; cursor: pointer;">
+                                <label class="form-check-label" for="rememberMe" style="color: #1e293b; cursor: pointer; font-size: 0.9rem;">
+                                    Se souvenir de moi
+                                </label>
+                            </div>
+
+                            <!-- Bouton Se connecter -->
+                            <button type="submit" name="valider" class="btn login_btn w-100 mb-3" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; font-weight: 700; padding: 0.6rem; border: none; border-radius: 8px; font-size: 0.95rem; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(34, 197, 94, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(34, 197, 94, 0.3)';">
+                                <i class="bi bi-arrow-right me-2"></i>
+                                Se connecter
+                            </button>
+
+                            <!-- Divider -->
+                            <div style="display: flex; align-items: center; margin: 1rem 0;">
+                                <div style="flex: 1; height: 1px; background: #e2e8f0;"></div>
+                                <span style="padding: 0 0.75rem; color: #64748b; font-size: 0.8rem;">ou</span>
+                                <div style="flex: 1; height: 1px; background: #e2e8f0;"></div>
+                            </div>
+
+                            <!-- Connexion sociale -->
+                            <div class="d-flex justify-content-center gap-2 mb-3">
+                                <a class="social-btn-modern" href="#" title="Connexion avec Google" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; background: #f8fafc; border: 2px solid #e2e8f0; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='#22c55e'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 12px rgba(34, 197, 94, 0.15)';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                    <img width="25" height="25" src="{{ asset('images/divers/LogoGoogle.png') }}" alt="Google">
+                                </a>
+                                <a class="social-btn-modern" href="#" title="Connexion avec GitHub" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; background: #f8fafc; border: 2px solid #e2e8f0; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='#22c55e'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 12px rgba(34, 197, 94, 0.15)';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                    <img width="25" src="{{ asset('images/divers/LogoGithub.png') }}" alt="GitHub">
+                                </a>
+                                <a class="social-btn-modern" href="#" title="Connexion avec Facebook" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; background: #f8fafc; border: 2px solid #e2e8f0; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='#22c55e'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 12px rgba(34, 197, 94, 0.15)';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                    <img width="25" src="{{ asset('images/divers/LogoFacebook.png') }}" alt="Facebook">
+                                </a>
+                            </div>
+
+                            <!-- Liens de navigation -->
+                            <div class="text-center" style="border-top: 1px solid #e2e8f0; padding-top: 1rem; font-size: 0.85rem;">
+                                <p class="mb-1" style="color: #64748b;">
+                                    Vous n'avez pas de compte ?
+                                    <a href="{{path('app_register')}}" style="color: #22c55e; font-weight: 600; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#16a34a';" onmouseout="this.style.color='#22c55e';">S'inscrire</a>
+                                </p>
+                                <p style="color: #64748b; margin: 0;">
+                                    <a href="#" style="color: #22c55e; font-weight: 600; text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='#16a34a';" onmouseout="this.style.color='#22c55e';">Mot de passe oublié ?</a>
+                                </p>
+                            </div>
+                        </form>
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Carte de connexion */
+        .user_card {
+            width: 100%;
+            max-width: 420px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            padding: 45px 25px 25px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .user_card:hover {
+            box-shadow: 0 20px 50px rgba(34, 197, 94, 0.12);
+            border-color: #22c55e;
+        }
+
+        /* Logo circulaire */
+        .brand_logo_container {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+            border: 4px solid white;
+            transition: all 0.3s ease;
+        }
+
+        .user_card:hover .brand_logo_container {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 12px 32px rgba(34, 197, 94, 0.4);
+        }
+
+        .brand_logo {
+            height: 85px;
+            width: 85px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        /* Container du formulaire */
+        .form_container {
+            background: transparent;
+        }
+
+        /* Titre connexion */
+        .conn-title {
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* Icônes input */
+        .input-icon {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border: none !important;
+            color: white;
+        }
+
+        /* Input email/password */
+        .conn-input {
+            border: 1px solid #e2e8f0 !important;
+            padding: 0.6rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .conn-input:focus {
+            border-color: #22c55e !important;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
+        }
+
+        /* Bouton toggle password */
+        .toggle-password-btn {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .toggle-password-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Checkbox souvenir */
+        .conn-checkbox {
+            border-color: #22c55e;
+            cursor: pointer;
+            width: 1.25em;
+            height: 1.25em;
+        }
+
+        .conn-checkbox:checked {
+            background-color: #22c55e !important;
+            border-color: #22c55e !important;
+        }
+
+        .conn-checkbox:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.25);
+        }
+
+        .conn-checkbox-label {
+            color: #1e293b;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* Bouton connexion */
+        .btn-connect {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            font-weight: 700;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+            cursor: pointer;
+        }
+
+        .btn-connect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Divider */
+        .conn-divider {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .conn-divider-line {
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .conn-divider-text {
+            padding: 0 0.75rem;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        /* Boutons sociaux */
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            border-color: #22c55e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(34, 197, 94, 0.15);
+        }
+
+        /* Liens de navigation footer */
+        .conn-nav-link {
+            color: #22c55e;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .conn-nav-link:hover {
+            color: #16a34a;
+        }
+
+        .conn-footer-text {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1rem;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .conn-footer-text p {
+            color: #64748b;
+        }
+
+        /* Avatar déconnexion */
+        .avatar-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        /* Titre bienvenue */
+        .welcome-title {
+            color: #1e293b;
+            margin-bottom: 0.3rem;
+            font-size: 1.25rem;
+        }
+
+        /* Nom utilisateur */
+        .welcome-name {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .welcome-name strong {
+            color: #22c55e;
+        }
+
+        /* Rôle utilisateur */
+        .welcome-role {
+            color: #f59e0b;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Bouton déconnexion */
+        .btn-logout {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            font-weight: 700;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            cursor: pointer;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Messages d'erreur */
+        .error-message {
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media(max-width: 600px) {
+            .user_card {
+                width: 95%;
+                max-width: 100%;
+                padding: 45px 18px 18px;
+            }
+
+            .brand_logo_container {
+                width: 90px;
+                height: 90px;
+                top: -45px;
+            }
+
+            .brand_logo {
+                width: 75px;
+                height: 75px;
+            }
+        }
+    </style>
+{% endblock %}
